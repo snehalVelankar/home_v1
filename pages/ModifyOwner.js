@@ -15,23 +15,6 @@ import {
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-let configurations = {
-  owner: {
-    owner_name: '',
-    owner_password: '',
-    MailId: '',
-    PhoneNumber: '',
-    Property_name: '',
-    Area: '',
-    State: '',
-    country: '',
-    Street: '',
-    Door_Number: '',
-  },
-  location: [],
-  appliance: [],
-  Binding: [],
-};
 import {check_password, read_store_async} from './Functions';
 import {useFocusEffect} from '@react-navigation/native';
 const ModifyOwner = ({navigation}) => {

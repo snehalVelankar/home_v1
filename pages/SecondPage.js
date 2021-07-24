@@ -2,10 +2,10 @@ import React, {useState} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity, Alert} from 'react-native';
 import DialogInput from 'react-native-dialog-input';
 import {useFocusEffect} from '@react-navigation/native';
-import {check_password} from './Functions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {check_password} from './Functions';
 import Binding from './Binding';
-import {pwd_status} from './FirstPage';
+
 const SecondPage = ({navigation}) => {
   const [isDialogVisible, setisDialogVisible] = useState(false);
   const [view, setview] = useState(false);
@@ -20,12 +20,14 @@ const SecondPage = ({navigation}) => {
   }
 
   const sendInput = async (inputText, close) => {
-    console.log('password ' + inputText);
+    const read1 = await AsyncStorage.getItem('user_config');
+    const async_raw1 = JSON.parse(read1);
     let val = await check_password(inputText);
     // console.log('val', val);
     if (val == 'valid') {
-      pwd_status = true;
       setview(false);
+      async_raw1.pwd_status = true;
+      await AsyncStorage.setItem('user_config', JSON.stringify(async_raw1));
       setisDialogVisible(close);
     } else {
       Alert.alert(
@@ -45,47 +47,40 @@ const SecondPage = ({navigation}) => {
 
   const retrieve = async () => {
     const read = await AsyncStorage.getItem('user_config');
-
+    const async_raw = JSON.parse(read);
     if (read == null) {
       setview(true);
     } else {
-      // if(pwd_status==0||count_iter>5){
+      if (async_raw.pwd_status == false) {
+        setisDialogVisible(true);
+      }
+      const obj = JSON.parse(read);
+      let own1 = obj.owner;
+      let own2 = JSON.stringify(own1);
+      let loc1 = obj.location;
+      let loc2 = JSON.stringify(loc1);
+      let app1 = obj.appliance;
+      let app2 = JSON.stringify(app1);
+      // console.log(own1, loc1, app1);
 
-      //   setisDialogVisible(true);
-      // }else{
+      console.log(own2.length, loc2.length, app2.length);
+      if (own2.length) {
+        // console.log('owner registered');
+        setview1(true);
+        setview(false);
 
-      // }
-      if (pwd_status == false) {
-        // setisDialogVisible(true);
-        const obj = JSON.parse(read);
-        let own1 = obj.owner;
-        let own2 = JSON.stringify(own1);
-        let loc1 = obj.location;
-        let loc2 = JSON.stringify(loc1);
-        let app1 = obj.appliance;
-        let app2 = JSON.stringify(app1);
-        // console.log(own1, loc1, app1);
-        console.log(own2.length, loc2.length, app2.length);
-        if (own2.length) {
-          setisDialogVisible(true);
-          // console.log('owner registered');
-          setview1(true);
+        if (loc2.length > 3) {
+          // console.log('owner and loc registered');
+          setview2(true);
+          setview1(false);
           setview(false);
-          if (loc2.length > 3) {
-            setisDialogVisible(true);
-            // console.log('owner and loc registered');
-            setview2(true);
+
+          if (app2.length > 3) {
+            // console.log('owner and loc and appliance registered');
+            setview3(true);
+            setview2(false);
             setview1(false);
             setview(false);
-
-            if (app2.length > 3) {
-              setisDialogVisible(true);
-              // console.log('owner and loc and appliance registered');
-              setview3(true);
-              setview2(false);
-              setview1(false);
-              setview(false);
-            }
           }
         }
       }

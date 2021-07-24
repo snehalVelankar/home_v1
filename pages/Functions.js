@@ -29,11 +29,8 @@ const read_store_async = async (event, userdata) => {
         return 'Data is updated';
       } else {
         // storedValue_obj.owner[0] = userdata.slice(0);
-        console.log('updated owner',userdata);
-        await AsyncStorage.setItem(
-          'user_config',
-          JSON.stringify(userdata),
-        );
+        console.log('updated owner', userdata);
+        await AsyncStorage.setItem('user_config', JSON.stringify(userdata));
         return 'Data is updated';
       }
       break;
@@ -99,7 +96,7 @@ const read_store_async = async (event, userdata) => {
 
       break;
     case 'binding_event':
-      console.log('binding length',storedValue_obj.Binding.length);
+      console.log('binding length', storedValue_obj.Binding.length);
       if (storedValue_obj.Binding.length <= 0) {
         storedValue_obj.Binding.push(userdata_obj);
         let string_data = JSON.stringify(storedValue_obj);
@@ -133,11 +130,11 @@ const read_store_async = async (event, userdata) => {
 
 const check_password = async pass => {
   const async_data_owner = await AsyncStorage.getItem('user_config');
-  
+
   var result = '';
   if (async_data_owner) {
     let read = JSON.parse(async_data_owner);
-    
+
     if (pass == read.owner.owner_password) {
       result = 'valid';
     } else {
@@ -217,14 +214,13 @@ const delete_registrations = async (event, userdata) => {
         storedValue_obj.Binding = result.slice(0);
       }
 
+      //       storedValue_obj.Binding =  ['snehal_ligh_kitchen','snehal_ligh_hall','snehal_fan_kitchen']
+      //       userdata = light
+      //       var res = storedValue_obj.Binding.filter( item=>!item.includes('light'))
+      // res = ['snehal_fan_kitchen']
+      // storedValue_obj.Binding =res.splice(0)
 
-//       storedValue_obj.Binding =  ['snehal_ligh_kitchen','snehal_ligh_hall','snehal_fan_kitchen']
-//       userdata = light
-//       var res = storedValue_obj.Binding.filter( item=>!item.includes('light'))
-// res = ['snehal_fan_kitchen']
-// storedValue_obj.Binding =res.splice(0)
-
-// storedValue_obj.Binding=['snehal_fan_kitchen']
+      // storedValue_obj.Binding=['snehal_fan_kitchen']
       console.log('userdata', userdata);
       console.log('value after deleting Appliance', storedValue_obj.appliance);
       console.log('value after deleting  binding', storedValue_obj.Binding);

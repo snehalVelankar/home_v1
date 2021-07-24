@@ -7,9 +7,23 @@ import {
   SafeAreaView,
 } from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
-export var pwd_status = false;
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const FirstPage = ({navigation}) => {
-  
+   useFocusEffect(
+    React.useCallback(() => {
+      retrieve();
+    }, []),
+  );
+ async function retrieve() {
+    const read1 = await AsyncStorage.getItem('user_config');
+    if(read1){
+const async_raw1 = JSON.parse(read1);
+     async_raw1.pwd_status = false
+      await AsyncStorage.setItem('user_config', JSON.stringify(async_raw1));
+
+    }
+    
+  }
 
   return (
     <SafeAreaView style={{flex: 1}}>

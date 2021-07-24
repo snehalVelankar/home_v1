@@ -16,26 +16,26 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 let configurations = {
+  pwd_status: false,
   owner: {
-    
-      owner_name: '',
-      owner_password: '',
-      MailId: '',
-      PhoneNumber: '',
-      Property_name: '',
-      Area: '',
-      State: '',
-      country: '',
-      Street: '',
-      Door_Number: '',
-    
-},
+    owner_name: '',
+    owner_password: '',
+    MailId: '',
+    PhoneNumber: '',
+    Property_name: '',
+    Area: '',
+    State: '',
+    country: '',
+    Street: '',
+    Door_Number: '',
+  },
   location: [],
   appliance: [],
   Binding: [],
 };
 
 import {check_password, read_store_async} from './Functions';
+import {pwd_status} from './FirstPage';
 
 const OwnerRegistration = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -55,7 +55,6 @@ const OwnerRegistration = ({navigation}) => {
     setModalVisible(!modalVisible);
     if (
       !OwnerName ||
-
       !MailId ||
       !PhoneNumber ||
       !Property_name ||
